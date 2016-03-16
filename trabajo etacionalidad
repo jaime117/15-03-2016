@@ -1,0 +1,53 @@
+
+  #### Generar 4 objetos con datos aleatorios y que tengan 60 datos
+  ### dato 1 de n?mero de profesionista (mill)rango de 5 a 8
+  ### dato 2 crec pib rango de 0 a 5
+  ### dato 3 porcentaje de ocupados rango de 40 a 60
+  ### dato 4 porcentaje de desocupados rango de 3 a 8
+  #### 1) una vez que generen los datos hacer un data frame de los 4 objetos
+  #### 2) mostrar en consola los primeros 12 y ultimos 12 datos
+  #### 3) convertir los objetos en series de tiempo desde el data frame comezando en 2010 y son datos mensuales
+  #### 4) graficar los profesionistas y ocupados en la misma imagen
+  #### 5) graficar pib y desocupados en la misma imagen
+  #### 6) graficar todas juntas
+### 7) creaR serie de tiempo multiple!!!!8
+#### 8 ) graficar serie de tiempo multiple 
+#### 9 ) dividir serie de tiempo y graficar solo el ultimo año...
+#### 8 ) analizar las graficas ( si hay alguna tendencia o variacion estacional) (investigar)
+
+#######1
+numprof<- sample(5:8, 60, replace = T)
+crecpib<- sample(0:5, 60, replace = T)
+ocupados<- sample(40:60, 60, replace = T)
+desocupados<- sample(3:8, 60, replace = T)
+df=data.frame(numprof,crecpib,ocupados,desocupados)
+######2
+df1<-df [c(1:12,49:60),]
+
+#####3
+serie<-ts(df,start = 2010, frequency = 12)
+
+prof<-ts(numprof,start = 2010, freq = 12)
+ocu<-ts(ocupados,start = 2010, freq = 12)
+desocu<-ts(desocupados,start = 2010, freq = 12)
+pib<-ts(crecpib,start = 2010, freq = 12)
+
+####4
+plot(cbind(prof,ocu))
+#####5
+plot(cbind(pib,desocu))
+#####6
+plot(cbind(prof,ocu,desocu,pib))
+#####7
+seriemultiple1 <- ts.intersect(prof,ocu,desocu,pib) 
+seriemultiple1
+######8
+plot(seriemultiple1, main="serie de tiempo multiple", col="red")
+#####9
+seriemultiple3<- window(seriemultiple1, start= c(2014,1), end=c(2014,12)) 
+seriemultiple3
+plot(seriemultiple3, main="serie multiple de ultimo año", col="green")
+######10
+plot(aggregate(seriemultiple1), main="tendencia", xlab="años", ylab="variables", col="pink")
+plot(cbind(prof,ocu,desocu,pib))
+        ####no existe componente de estacionalidad ya que no se observa ningun ciclo o patron repetido 
